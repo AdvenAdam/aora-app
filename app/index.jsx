@@ -6,10 +6,13 @@ import CustomButton from '../components/CustomButton';
 import { StatusBar } from 'expo-status-bar';
 import { colors } from '../constants/global';
 import { Redirect, router } from 'expo-router';
+import { useGlobalContext } from '../context/GlobalProvider';
 
 
 
 const App = () => {
+    const { isLoading, isLoggedIn } = useGlobalContext();
+    if (!isLoading && isLoggedIn) return <Redirect href="/home" />
 
     return (
         <SafeAreaView className='bg-primary h-full'>
@@ -22,7 +25,7 @@ const App = () => {
                     />
                     <Image
                         source={images.cards}
-                        className='max-w-[300px] max-h-[300px] w-full h-full'
+                        className='max-w-[300px] ma x-h-[300px] w-full h-full'
                     />
                     <View className='relative mt-5'>
                         <Text className='text-white text-3xl text-center font-bold'>
