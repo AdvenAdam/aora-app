@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
-import { View, Text, FlatList, Image, RefreshControl, Alert } from 'react-native';
+import { View, Text, FlatList, Image, FlatList, Image, RefreshControl, Alert } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { images } from '../../constants';
+import SearchInput from '../../components/SearchInput';
+import Trending from '../../components/Trending';
+import EmptyState from '../../components/EmptyState';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { images } from '../../constants';
 import SearchInput from '../../components/SearchInput';
@@ -9,6 +14,7 @@ import { getAllPosts, getLatestPosts } from '../../lib/appwrite';
 import VideoCard from '../../components/VideoCard';
 import LatestPosts from '../../components/LatestPosts';
 const Home = () => {
+
     const [refreshing, setRefreshing] = useState(false);
     const { data: posts, isLoading: loading, refetch } = useAppwrite(getAllPosts)
     const { data: latestPost } = useAppwrite(getLatestPosts)
@@ -21,12 +27,12 @@ const Home = () => {
     }
 
     return (
-        <SafeAreaView className='bg-primary h-full'>
+        <SafeAreaView className='bg-primary'>
             <FlatList
-                data={posts}
-                // data={[]}
-                keyExtractor={(item) => item.$id}
-                renderItem={({ item }) => <VideoCard video={item} creator={item.creator} isLoading={loading} />}
+                // data={[{ id: 1 }, { id: 2 }, { id: 3 }]}
+                data={[]}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => <Text className='text-3xl text-white'>{item.id}</Text>}
                 ListHeaderComponent={() => (
                     <View className='my-6 px-4 space-y-6'>
                         <View className='flex-row justify-between items-center mb-6'>
@@ -41,7 +47,7 @@ const Home = () => {
                             <View className='mt-1.5'>
                                 <Image
                                     source={images.logoSmall}
-                                    className='w-10 h-10'
+                                    className='w-9 h-10'
                                     resizeMode='contain'
                                 />
                             </View>
@@ -51,8 +57,8 @@ const Home = () => {
                             <Text className='text-gray-100 text-lg font-pregular mb-3'>
                                 Latest Video
                             </Text>
-                            <LatestPosts
-                                posts={latestPost ?? []}
+                            <Trending
+                                posts={[{ id: 1 }, { id: 2 }, { id: 3 }] ?? []}
                             />
                         </View>
                     </View>
@@ -63,8 +69,8 @@ const Home = () => {
                         title='No videos found'
                         subtitle='Try searching for something else'
                     />}
-                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
             />
+            < Text > Home</Text >
         </SafeAreaView >
     );
 };
