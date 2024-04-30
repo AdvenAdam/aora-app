@@ -25,7 +25,7 @@ const App = () => {
                     />
                     <Image
                         source={images.cards}
-                        className='max-w-[300px] max-h-[300px] w-full h-full'
+                        className='max-w-[380px] w-full h-[298px]'
                     />
                     <View className='relative mt-5'>
                         <Text className='text-white text-3xl text-center font-bold'>
