@@ -27,12 +27,11 @@ const Home = () => {
     }
 
     return (
-        <SafeAreaView className='bg-primary'>
+        <SafeAreaView className='bg-primary h-full'>
             <FlatList
-                // data={[{ id: 1 }, { id: 2 }, { id: 3 }]}
-                data={[]}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => <Text className='text-3xl text-white'>{item.id}</Text>}
+                data={posts}
+                keyExtractor={(item) => item.$id}
+                renderItem={({ item }) => <VideoCard video={item} creator={item.creator} isLoading={loading} />}
                 ListHeaderComponent={() => (
                     <View className='my-6 px-4 space-y-6'>
                         <View className='flex-row justify-between items-center mb-6'>
@@ -47,7 +46,7 @@ const Home = () => {
                             <View className='mt-1.5'>
                                 <Image
                                     source={images.logoSmall}
-                                    className='w-9 h-10'
+                                    className='w-10 h-10'
                                     resizeMode='contain'
                                 />
                             </View>
@@ -57,8 +56,8 @@ const Home = () => {
                             <Text className='text-gray-100 text-lg font-pregular mb-3'>
                                 Latest Video
                             </Text>
-                            <Trending
-                                posts={[{ id: 1 }, { id: 2 }, { id: 3 }] ?? []}
+                            <LatestPosts
+                                posts={latestPost ?? []}
                             />
                         </View>
                     </View>
@@ -69,8 +68,8 @@ const Home = () => {
                         title='No videos found'
                         subtitle='Try searching for something else'
                     />}
+                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
             />
-            < Text > Home</Text >
         </SafeAreaView >
     );
 };
