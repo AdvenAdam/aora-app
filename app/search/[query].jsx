@@ -1,17 +1,11 @@
-import { useEffect, useState } from 'react';
-import { View, Text, FlatList, Image, FlatList, Image, RefreshControl, Alert } from 'react-native';
+import { useEffect } from 'react';
+import { View, Text, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { images } from '../../constants';
-import SearchInput from '../../components/SearchInput';
-import EmptyState from '../../components/EmptyState';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { images } from '../../constants';
 import SearchInput from '../../components/SearchInput';
 import EmptyState from '../../components/EmptyState';
 import useAppwrite from '../../lib/useAppwrite';
 import { searchPosts } from '../../lib/appwrite';
 import VideoCard from '../../components/VideoCard';
-import LatestPosts from '../../components/LatestPosts';
 import { useLocalSearchParams } from 'expo-router';
 const Search = () => {
     const { query } = useLocalSearchParams()
