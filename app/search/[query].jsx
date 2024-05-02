@@ -9,8 +9,7 @@ import VideoCard from '../../components/VideoCard';
 import { useLocalSearchParams } from 'expo-router';
 const Search = () => {
     const { query } = useLocalSearchParams()
-    const { data: posts, isLoading: loading, refetch } = useAppwrite(() => searchPosts(query))
-
+    const { data: posts, refetch } = useAppwrite(() => searchPosts(query));
 
     useEffect(() => {
         refetch()
@@ -22,7 +21,7 @@ const Search = () => {
             <FlatList
                 data={posts}
                 keyExtractor={(item) => item.$id}
-                renderItem={({ item }) => <VideoCard video={item} creator={item.creator} isLoading={loading} />}
+                renderItem={({ item }) => <VideoCard video={item} creator={item.creator} />}
                 ListHeaderComponent={() => (
                     <View className='my-6 px-4 '>
                         <Text className='font-pmedium text-sm text-gray-100' >

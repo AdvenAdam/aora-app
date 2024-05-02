@@ -19,10 +19,14 @@ const SearchInput = ({ initialValue }) => {
             />
             <TouchableOpacity
                 onPress={() => {
-                    if (!query) return Alert.alert('Missing Query', 'Please Input Something to Search')
+                    if (query === "")
+                        return Alert.alert(
+                            "Missing Query",
+                            "Please input something to search results across database"
+                        );
 
-                    if (pathname.startsWith('/search')) router.setParams({ query })
-                    else router.push(`/search/${query}`)
+                    if (pathname.startsWith("/search")) router.setParams({ query });
+                    else router.push(`/search/${query}`);
                 }}
             >
                 <Image
