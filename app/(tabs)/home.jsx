@@ -8,9 +8,11 @@ import useAppwrite from '../../lib/useAppwrite';
 import { getAllPosts, getLatestPosts } from '../../lib/appwrite';
 import VideoCard from '../../components/VideoCard';
 import LatestPosts from '../../components/LatestPosts';
+import { useGlobalContext } from '../../context/GlobalProvider';
 const Home = () => {
 
     const [refreshing, setRefreshing] = useState(false);
+    const { setIsLoggedIn, user, setUser } = useGlobalContext();
     const { data: posts, isLoading: loading, refetch } = useAppwrite(getAllPosts)
     const { data: latestPost } = useAppwrite(getLatestPosts)
 
@@ -35,7 +37,7 @@ const Home = () => {
                                     Welcome Back,
                                 </Text>
                                 <Text className='text-2xl font-psemibold text-white'>
-                                    Ven Dam
+                                    {user?.username}
                                 </Text>
                             </View>
                             <View className='mt-1.5'>
