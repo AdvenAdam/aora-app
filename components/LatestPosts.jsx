@@ -49,7 +49,6 @@ const LatestItem = ({ activeItem, item }) => {
                     activeOpacity={0.7}
                     onPress={() => {
                         setPlay(true)
-                        console.log(item.video)
                     }}
                 >
                     <ImageBackground

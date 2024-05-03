@@ -1,10 +1,44 @@
-import { View, Text, Image, TouchableOpacity } from 'react-native'
+import { View, Text, Image, TouchableOpacity, Alert } from 'react-native'
 import { icons } from '../constants'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ResizeMode, Video } from 'expo-av'
-const VideoCard = ({ video: { title, thumbnail, video, prompt }, creator: { username, avatar }, isLoading }) => {
+import useAppwrite from '../lib/useAppwrite'
+import { useGlobalContext } from '../context/GlobalProvider'
+import { cekBoorkmark, updateBookmark } from '../lib/appwrite'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { router } from 'expo-router'
+
+const VideoCard = ({ video: { title, thumbnail, video, prompt, $id }, creator: { username, avatar }, bookmarks, isLoading, isBookmarkPage = false }) => {
     const [play, setPlay] = useState(false)
+    const { user } = useGlobalContext();
+    const { data: isBookmark } = useAppwrite(() => cekBoorkmark(bookmarks, user?.$id))
+
+
+    const [bookmarked, setBookmarked] = useState(false);
+    useEffect(() => {
+        if (typeof isBookmark !== 'undefined') {
+            setBookmarked(isBookmark);
+        }
+    }, [isBookmark]);
+    const toggleBookmark = async () => {
+        const updatedBookmarks = bookmarked
+            ? bookmarks.filter(bookmark => bookmark.$id !== user?.$id)
+            : [...bookmarks, user];
+
+        try {
+            await updateBookmark(updatedBookmarks, $id);
+            setBookmarked(!bookmarked);
+            router.replace('/home');
+            Alert.alert('Success', bookmarked ? 'Video has been removed from your bookmarks' : 'Video has been added to your bookmarks');
+        } catch {
+            Alert.alert('Error');
+        }
+    }
+
+
+
     if (isLoading) return <Text className='text- white text-3xl'>Loading ...</Text>
+    if (!bookmarked && isBookmarkPage) return null
     return (
         <View className='flex-col items-center px-4 mb-14'>
             <View className='flex-row gap-3 items-start'>
@@ -26,12 +60,17 @@ const VideoCard = ({ video: { title, thumbnail, video, prompt }, creator: { user
                     </View>
                 </View>
                 <View className='pt-2'>
-                    <Image
-                        source={icons.menu}
-                        className='w-5 h-5'
-                        resizeMode='contain'
-                    />
-
+                    <TouchableOpacity
+                        onPress={() => toggleBookmark()}
+                    >
+                        {
+                            bookmarked ? (
+                                <MaterialCommunityIcons name="bookmark" color={'white'} size={30} />
+                            ) : (
+                                <MaterialCommunityIcons name="bookmark-outline" color={'white'} size={30} />
+                            )
+                        }
+                    </TouchableOpacity>
                 </View>
             </View>
             {

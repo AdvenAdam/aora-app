@@ -12,7 +12,7 @@ import { useGlobalContext } from '../../context/GlobalProvider';
 const Home = () => {
 
     const [refreshing, setRefreshing] = useState(false);
-    const { setIsLoggedIn, user, setUser } = useGlobalContext();
+    const { user } = useGlobalContext();
     const { data: posts, isLoading: loading, refetch } = useAppwrite(getAllPosts)
     const { data: latestPost } = useAppwrite(getLatestPosts)
 
@@ -28,7 +28,14 @@ const Home = () => {
             <FlatList
                 data={posts}
                 keyExtractor={(item) => item.$id}
-                renderItem={({ item }) => <VideoCard video={item} creator={item.creator} isLoading={loading} />}
+                renderItem={({ item }) => (
+                    <VideoCard
+                        video={item}
+                        creator={item.creator}
+                        isLoading={loading}
+                        bookmarks={item.bookmarks}
+                    />
+                )}
                 ListHeaderComponent={() => (
                     <View className='my-6 px-4 space-y-6'>
                         <View className='flex-row justify-between items-center mb-6'>
@@ -48,7 +55,7 @@ const Home = () => {
                                 />
                             </View>
                         </View>
-                        <SearchInput />
+                        <SearchInput placeholder={'What do you want to watch today?'} />
                         <View className='w-full flex-1 pt-5 pb-8'>
                             <Text className='text-gray-100 text-lg font-pregular mb-3'>
                                 Latest Video
