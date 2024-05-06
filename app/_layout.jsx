@@ -42,6 +42,10 @@ const RootLayout = () => {
                     name="search/[query]"
                     options={{ headerShown: false }}
                 />
+                <Stack.Screen
+                    name="search/bookmarks/[query]"
+                    options={{ headerShown: false }}
+                />
             </Stack>
         </GlobalProvider>
     );

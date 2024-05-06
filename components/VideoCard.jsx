@@ -8,10 +8,11 @@ import { cekBoorkmark, updateBookmark } from '../lib/appwrite'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { router } from 'expo-router'
 
-const VideoCard = ({ video: { title, thumbnail, video, prompt, $id }, creator: { username, avatar }, bookmarks, isLoading, isBookmarkPage = false }) => {
+const VideoCard = ({ video: { title, thumbnail, video, bookmarks, $id }, creator: { username, avatar }, isLoading, isBookmarkPage = false }) => {
     const [play, setPlay] = useState(false)
     const { user } = useGlobalContext();
-    const { data: isBookmark } = useAppwrite(() => cekBoorkmark(bookmarks, user?.$id))
+    const bookmarksData = bookmarks || [];
+    const { data: isBookmark } = useAppwrite(() => cekBoorkmark(bookmarksData, user?.$id))
 
 
     const [bookmarked, setBookmarked] = useState(false);
@@ -22,13 +23,13 @@ const VideoCard = ({ video: { title, thumbnail, video, prompt, $id }, creator: {
     }, [isBookmark]);
     const toggleBookmark = async () => {
         const updatedBookmarks = bookmarked
-            ? bookmarks.filter(bookmark => bookmark.$id !== user?.$id)
-            : [...bookmarks, user];
+            ? bookmarksData.filter(bookmark => bookmark.$id !== user?.$id)
+            : [...bookmarksData, user];
 
         try {
             await updateBookmark(updatedBookmarks, $id);
             setBookmarked(!bookmarked);
-            router.replace('/home');
+            router.replace(!isBookmarkPage ? '/home' : '/bookmark');
             Alert.alert('Success', bookmarked ? 'Video has been removed from your bookmarks' : 'Video has been added to your bookmarks');
         } catch {
             Alert.alert('Error');

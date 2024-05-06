@@ -3,7 +3,7 @@ import { colors } from '../constants/global'
 import { useState } from 'react'
 import { icons } from '../constants'
 import { router, usePathname } from 'expo-router'
-const SearchInput = ({ initialValue, placeholder }) => {
+const SearchInput = ({ initialValue, placeholder, searchRoute }) => {
 
     const pathname = usePathname()
     const [query, setQuery] = useState(initialValue || '')
@@ -25,8 +25,8 @@ const SearchInput = ({ initialValue, placeholder }) => {
                             "Please input something to search results across database"
                         );
 
-                    if (pathname.startsWith("/search")) router.setParams({ query });
-                    else router.push(`/search/${query}`);
+                    if (pathname.startsWith(`${searchRoute}`)) router.setParams({ query });
+                    else router.push(`${searchRoute}/${query}`);
                 }}
             >
                 <Image

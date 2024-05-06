@@ -46,7 +46,10 @@ const Bookmark = () => {
                             </View>
 
                         </View>
-                        <SearchInput placeholder={'Search your saved videos'} />
+                        <SearchInput
+                            placeholder={'Search your saved videos'}
+                            searchRoute='/search/bookmark'
+                        />
 
                     </View>
                 )}

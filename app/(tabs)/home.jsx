@@ -55,7 +55,10 @@ const Home = () => {
                                 />
                             </View>
                         </View>
-                        <SearchInput placeholder={'What do you want to watch today?'} />
+                        <SearchInput
+                            placeholder={'What do you want to watch today?'}
+                            searchRoute='/search'
+                        />
                         <View className='w-full flex-1 pt-5 pb-8'>
                             <Text className='text-gray-100 text-lg font-pregular mb-3'>
                                 Latest Video
